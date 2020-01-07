@@ -10,7 +10,7 @@ Concurrently search directories while also following symlinks.
 
 ## Example use
 
-This passes in a function to `symwal.Walk`, which is called for every encountered file or directory:
+This passes in a function to `symwalk.Walk`, which is called for every encountered file or directory:
 
 ```go
 import (
