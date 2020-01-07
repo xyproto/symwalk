@@ -14,7 +14,7 @@ import (
 // To use a value other than this one, use the WalkLimit function.
 const DefaultConcurrentWalks int = 100
 
-// SymWalk walks the file tree rooted at root, calling walkFn for each file or
+// Walk walks the file tree rooted at root, calling walkFn for each file or
 // directory in the tree, including root. All errors that arise visiting files
 // and directories are filtered by walkFn. The output is non-deterministic.
 // WalkLimit does not follow symbolic links.
@@ -22,7 +22,7 @@ const DefaultConcurrentWalks int = 100
 // For each file and directory encountered, Walk will trigger a new Go routine
 // allowing you to handle each item concurrently.  A maximum of DefaultConcurrentWalks
 // walkFns will be called at any one time.
-func SymWalk(root string, walkFn filepath.WalkFunc) error {
+func Walk(root string, walkFn filepath.WalkFunc) error {
 	return WalkLimit(root, walkFn, DefaultConcurrentWalks)
 }
 

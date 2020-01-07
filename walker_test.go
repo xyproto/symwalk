@@ -78,7 +78,7 @@ func BenchmarkPowerwalk(b *testing.B) {
 	b.StartTimer()
 
 	for i := 0; i < b.N; i++ {
-		SymWalk(testFiles, walkFunc)
+		Walk(testFiles, walkFunc)
 	}
 
 	b.StopTimer()
@@ -134,7 +134,7 @@ func TestPowerWalk(t *testing.T) {
 		return nil
 	}
 
-	assert.NoError(t, SymWalk(testFiles, walkFunc))
+	assert.NoError(t, Walk(testFiles, walkFunc))
 
 	// make sure everything was seen
 	if assert.NotEqual(t, len(seen), 0, "Walker should visit at least one file.") {
@@ -270,7 +270,7 @@ func TestPowerWalkError(t *testing.T) {
 		return nil
 	}
 
-	assert.Equal(t, SymWalk(testFiles, walkFunc), theErr)
+	assert.Equal(t, Walk(testFiles, walkFunc), theErr)
 
 	// make sure everything was seen
 	if assert.NotEqual(t, len(seen), 0, "Walker should visit at least one file.") {

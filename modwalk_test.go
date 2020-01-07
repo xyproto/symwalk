@@ -1,7 +1,6 @@
 package symwalk
 
 import (
-	"fmt"
 	"os"
 	"path"
 	"runtime"
@@ -19,7 +18,6 @@ func TestSymWalk(t *testing.T) {
 	var seenLock sync.Mutex
 	seen := make(map[string]bool)
 	walkFunc := func(p string, info os.FileInfo, err error) error {
-		fmt.Println("INFO", info)
 		if !info.IsDir() {
 			filename := path.Base(p)
 			seenLock.Lock()
@@ -29,11 +27,9 @@ func TestSymWalk(t *testing.T) {
 		return nil
 	}
 
-	assert.NoError(t, SymWalk("testdata/root", walkFunc))
+	assert.NoError(t, Walk("testdata/root", walkFunc))
 
-	fmt.Println("SEEN")
-	fmt.Println(seen)
-
+	// Check if "found.txt" was found, starting from "testdata/root", then following the symlink to "testdata/other"
 	followedSymlink := false
 	for fn := range seen {
 		if fn == "found.txt" {
