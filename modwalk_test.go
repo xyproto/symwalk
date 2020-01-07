@@ -19,6 +19,7 @@ func TestSymWalk(t *testing.T) {
 	var seenLock sync.Mutex
 	seen := make(map[string]bool)
 	walkFunc := func(p string, info os.FileInfo, err error) error {
+		fmt.Println("INFO", info)
 		if !info.IsDir() {
 			filename := path.Base(p)
 			seenLock.Lock()

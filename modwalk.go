@@ -74,7 +74,8 @@ func walk(path string, info os.FileInfo, walkFn filepath.WalkFunc) error {
 
 	for _, name := range names {
 		filename := filepath.Join(path, name)
-		fileInfo, err := os.Lstat(filename)
+		// Previously used Lstat instead of Stat for using the symlinks instead of what they point to
+		fileInfo, err := os.Stat(filename)
 		if err != nil {
 			if err := walkFn(filename, fileInfo, err); err != nil && err != filepath.SkipDir {
 				return err
@@ -99,7 +100,8 @@ func walk(path string, info os.FileInfo, walkFn filepath.WalkFunc) error {
 // large directories Walk can be inefficient.
 // Walk does not follow symbolic links.
 func filepathWalk(root string, walkFn filepath.WalkFunc) error {
-	info, err := os.Lstat(root)
+	// Previously used Lstat instead of Stat for using the symlinks instead of what they point to
+	info, err := os.Stat(root)
 	if err != nil {
 		err = walkFn(root, nil, err)
 	} else {
