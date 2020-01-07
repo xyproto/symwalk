@@ -4,11 +4,40 @@ Concurrently search directories while also following symlinks.
 
 ## Fork and license info
 
-* `walker.go` and `walker_test.go` are based on [powerwalk](https://github.com/stretchr/powerwalk) (MIT license), but with added support for traversing symlinks that points to directories too.
+* `walker.go` and the tests are based on [powerwalk](https://github.com/stretchr/powerwalk) (MIT license), but with added support for traversing symlinks that points to directories too.
 * `modwalk.go` is based on `path/filepath` from the Go standard library (BSD license).
-* This project is licensed under the MIT license. See [LICENSE](LICENSE) for more info.
+* The modifications to these files and the rest of this project are licensed under the MIT license.
+
+## Example use
+
+This passes in a function to `symwal.Walk`, which is called for every encountered file or directory:
+
+```go
+import (
+	"fmt"
+	"os"
+	"path/filepath"
+	"sync"
+
+	"github.com/xyproto/symwalk"
+)
+
+func main() {
+	var mut sync.Mutex
+	symwalk.Walk(".", func(p string, info os.FileInfo, err error) error {
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err)
+			return nil
+		}
+		filename := filepath.Base(p)
+		mut.Lock()
+		fmt.Printf("%s\n", filename)
+		mut.Unlock()
+		return nil
+	})
+}
+```
 
 ## General info
 
-* Version: 1.0.0
-
+* Version: 1.1.0
