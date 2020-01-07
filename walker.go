@@ -1,5 +1,7 @@
 package symwalk
 
+// This files is based on stretchr/powerwalk, which is also MIT licensed (credits given in the LICENSE file)
+
 import (
 	"errors"
 	"os"
@@ -12,7 +14,7 @@ import (
 // To use a value other than this one, use the WalkLimit function.
 const DefaultConcurrentWalks int = 100
 
-// Walk walks the file tree rooted at root, calling walkFn for each file or
+// SymWalk walks the file tree rooted at root, calling walkFn for each file or
 // directory in the tree, including root. All errors that arise visiting files
 // and directories are filtered by walkFn. The output is non-deterministic.
 // WalkLimit does not follow symbolic links.
@@ -20,7 +22,7 @@ const DefaultConcurrentWalks int = 100
 // For each file and directory encountered, Walk will trigger a new Go routine
 // allowing you to handle each item concurrently.  A maximum of DefaultConcurrentWalks
 // walkFns will be called at any one time.
-func Walk(root string, walkFn filepath.WalkFunc) error {
+func SymWalk(root string, walkFn filepath.WalkFunc) error {
 	return WalkLimit(root, walkFn, DefaultConcurrentWalks)
 }
 
@@ -86,7 +88,7 @@ func WalkLimit(root string, walkFn filepath.WalkFunc, limit int) error {
 
 	go func() {
 
-		filepath.Walk(root, func(p string, info os.FileInfo, err error) error {
+		filepathWalk(root, func(p string, info os.FileInfo, err error) error {
 			select {
 			case <-kill:
 				close(files)
