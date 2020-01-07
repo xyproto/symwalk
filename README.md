@@ -8,6 +8,10 @@ Concurrently search directories while also following symlinks.
 * `modwalk.go` is based on `path/filepath` from the Go standard library (BSD license).
 * The modifications to these files and the rest of this project are licensed under the MIT license.
 
+## Requirements
+
+* Go 1.10 or later.
+
 ## Example use
 
 This passes in a function to `symwalk.Walk`, which is called for every encountered file or directory:
